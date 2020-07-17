@@ -1,5 +1,5 @@
 {
-      "name": "TrendzQuiz",
+      "name": "PlayQuiz",
       "version": "1.3",
       "description": "A group of scripts written by East_Arctica",
       "permissions": ["activeTab", "declarativeContent"],
