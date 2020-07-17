@@ -1,35 +1,26 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PlayQuiz</title>
-</head>
-<body>
+  </head>
+  <body>
     <div>
-        <h1>Level 12</h1>
-        <p>1 out of 3</p>
-        <div>
-            <p id='question'>1. </p>
-            <p><input type="radio"  id='option1' name='options'   />Hi</p>
-            <p><input type="radio"  id='option2' name='options' />Hello</p>
-            <p><input type="radio"  id='option3' name='options' /></p>
-            <p><input type="radio"  id='option4' name='options' /></p>
-            <div>
-
-                <!-- <input type="radio" id="male" name="gender" value="male">
-                <label for="male">Male</label><br>
-                <input type="radio" id="female" name="gender" value="female">
-                <label for="female">Female</label><br>
-                <input type="radio" id="other" name="gender" value="other">
-                <label for="other">Other</label> -->
-
-                <button id='submit'>Submit</button>
-            </div>
-        </div>
-        
+      <h1>Level 12</h1>
+      <p>1 out of 3</p>
+      <div>
+        <p id="question">1.</p>
+        <form>
+          <input type="radio" name="option" value="opt1" />option1<br />
+          <input type="radio" name="option" value="opt2" />option2<br />
+          <input type="radio" name="option" value="opt3" />option3<br />
+          <input type="radio" name="option" value="opt4" />option4<br />
+          <br />
+          <input type="submit" onclick="onSubmit()" value="Submit" />
+        </form>
+      </div>
     </div>
 
     <script src="popup.js"></script>
-</body>
-<script src="popup.js"></script>
+  </body>
 </html>
