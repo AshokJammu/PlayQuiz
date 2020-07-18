@@ -1,5 +1,13 @@
  
   /*----------quiz.css---------------*/
+  .btn {
+    background-color: #75ba48 ;
+    border: none;
+    color: white;
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+  }
   select{
     /* margin:40px;
     background: rgba(0,0,0,0.3);
@@ -18,14 +26,34 @@
       color: #fff;
       border-bottom-right-radius: 55px;
       border-top-left-radius: 55px;
+      font-size: 25px;
   }
 
-  .questions{
+  /* .questions{
     background: black;
     padding: 20px;
     color: #fff;
     border-bottom-right-radius: 55px;
     border-top-left-radius: 55px;
+   
+} */
+
+label {
+    font-size: 25px;
+    margin-left: 15px;
+}
+input {
+    width: 20px;
+     height: 20px;
+}
+
+#catSelect {
+    width: 400px;
+}
+
+select {
+    padding: 10px 15px;
+    font-size: 20px;
 }
   
   .questions{
@@ -34,6 +62,7 @@
     color: #fff;
     border-bottom-right-radius: 55px;
     border-top-left-radius: 55px;
+    width: 650px;
   }
 
   .submit-button{
@@ -44,7 +73,43 @@
     outline: none;
     border-top-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    margin-top: 20px;
+    margin: 20px 30px;
+    font-size: 35px;
+}
+
+/* .wrong {
+    color: red;
+}
+
+.correct {
+    color: green;
+} */
+
+.text-center {
+    text-align: center;
+    font-size: 30px;
+    margin: 15px 0px;
+}
+
+#displayTime {
+    font-size: 30px;
+    
+}
+
+#disScore {
+    font-size: 30px;
+}
+
+#correctAns{
+    font-size: 30px;
+}
+
+#scoreTrack {
+    font-size: 30px;
+}
+
+#loadingPara {
+    font-size: 25px;
 }
 
   .element-animation1 {
@@ -56,7 +121,8 @@
     -webkit-transform-origin: 50% 50%;
     -ms-animation: animationFrames ease .8s;
     -ms-animation-iteration-count: 1;
-    -ms-transform-origin: 50% 50%
+    -ms-transform-origin: 50% 50%;
+    
 }
 .element-animation2 {
     animation: animationFrames ease 1s;
@@ -152,4 +218,64 @@
     }
 }
 
+
+/* Timer */
+.timerBody {
+    font-family: sans-serif;
+    display: grid;
+    /* height: 100vh; */
+    place-items: center;
+  }
   
+  .base-timer {
+    position: relative;
+    width: 100px;
+    height: 100px;
+  }
+  
+  .base-timer__svg {
+    transform: scaleX(-1);
+  }
+  
+  .base-timer__circle {
+    fill: none;
+    stroke: none;
+  }
+  
+  .base-timer__path-elapsed {
+    stroke-width: 7px;
+    stroke: grey;
+  }
+  
+  .base-timer__path-remaining {
+    stroke-width: 7px;
+    stroke-linecap: round;
+    transform: rotate(90deg);
+    transform-origin: center;
+    transition: 1s linear all;
+    fill-rule: nonzero;
+    stroke: currentColor;
+  }
+  
+  .base-timer__path-remaining.green {
+    color: rgb(65, 184, 131);
+  }
+  
+  .base-timer__path-remaining.orange {
+    color: orange;
+  }
+  
+  .base-timer__path-remaining.red {
+    color: red;
+  }
+  
+  .base-timer__label {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+  }

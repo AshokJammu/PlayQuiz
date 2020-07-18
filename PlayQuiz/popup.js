@@ -6,10 +6,16 @@ var startQuiz = document.getElementById('startQuiz')
 var selectTags = document.getElementById('selectTags')
 var loadingPara = document.getElementById('loadingPara')
 var submitBtn = document.getElementById('submit')
+var timerDiv = document.getElementById('timer')
+var displayTime = document.getElementById('displayTime')
+var correctAns = document.getElementById('correctAns')
+var scoreTrack = document.getElementById('scoreTrack')
+var disScore = document.getElementById('disScore')
+var homeBtn = document.getElementById('home')
 
+timerDiv.style.display = 'none'
 
 var loadFlag = false
-
 
 let labels = document.querySelectorAll('label')
 
@@ -20,13 +26,38 @@ var question = document.getElementById('question')
 
 var allData = []
 
+// var x
+var timerInterval = null;
+
 let count = 0
-var selectData
+var selectData = []
+
+var attempts = 0
+var score = 0
 
 let category = ''
 let difficulty = ''
 
 var diffFlag = false
+
+let quizFlag = false
+
+// Home button
+
+homeBtn.addEventListener('click',()=>{
+  displayLandPage()
+})
+
+// Home display function
+
+function displayLandPage(){
+  selectTags.style.display = "block"
+  optionsDiv.style.display = "none"
+  timerDiv.style.display = "none"
+  loadingDiv.style.display = "block"
+  clearInterval(timerInterval)
+
+}
 
 catSelect.addEventListener('change', async () => {
   console.log(event.target.value)
@@ -44,22 +75,19 @@ catSelect.addEventListener('change', async () => {
   allData = selectData.results
 
   count = 0
+
   // selectData = allData.filter(elem => elem.category == event.target.value && elem)
-  if (loadFlag) {
-    displayOptions()
-  }
+  // if (loadFlag && category != '' && difficulty != '' && quizFlag ) {
+  //   quizFlag = false
+  //   displayOptions()
+  // }
 })
 
 
 diffSelect.addEventListener('change', async () => {
   console.log(event.target.value)
 
-  //  if(selectData.length > 0) {
-  //    allData = selectData.filter(elem => elem.difficulty == 'event.target.value')
-  //  }else {
-  //     allData = allData.filter(elem => elem.difficulty == 'event.target.value')
-  //  }
-  // if(category) {
+  
 
   difficulty = event.target.value
 
@@ -73,10 +101,7 @@ diffSelect.addEventListener('change', async () => {
 
   count = 0
   console.log(allData)
-  if (loadFlag) {
 
-    displayOptions()
-  }
 })
 
 
@@ -86,8 +111,7 @@ async function checkData() {
     var res = await getData(i)
     console.log(res.results[0].category)
     let cat = res.results[0].category
-    // let diff = res.results[0].difficulty
-    //  selectData.push(res.results[0].category)
+  
 
     for (let j = 0; j < res.results.length; j++) {
       allData.push(res.results[j])
@@ -97,10 +121,7 @@ async function checkData() {
     catOpt.value = i
     catOpt.textContent = cat
     catSelect.append(catOpt)
-    // var diffOpt = document.createElement('option')
-    // diffOpt.value = diff
-    // diffOpt.textContent = diff
-    // diffSelect.append(diffOpt)
+
     i++
   }
   console.log(allData)
@@ -120,48 +141,126 @@ function getData(x) {
   } else {
     return fetch("https://opentdb.com/api.php?amount=10&category=" + category + "&difficulty=" + x)
       .then(data => data.json())
-      // .then(data => {
-      //    // if(data.length == null){
-      //    //    console.log("ash")
-      //    // }
-      //    console.log(data.length,"asf")
-      //    return data
-      // })
+
   }
 }
 
 checkData()
 
 // function onSubmit() {
-   submitBtn.addEventListener('click',()=>{
+submitBtn.addEventListener('click', () => {
 
-   
+ 
   event.preventDefault()
+  
   var radioInput = document.querySelectorAll("input");
-  var txt = "";
+
+
+  console.log(attempts, count, "count")
+   
+  // var txt = "";
   var uncheck = 0
   console.log(event.target.nextSibling)
-  for (var i = 0; i < radioInput.length; i++) {
-    if (radioInput[i].checked) {
-      // txt = txt + radioInput[i].value;
-      if (allData[count].correct_answer == radioInput[i].nextSibling.textContent) {
-        count++
-        displayOptions()
-      } 
-      // else {
-      //   alert('incorrect')
-      // }
-      radioInput[i].checked = false
-      // uncheck = i
-      break
+
+  if(count+1 >= 10) {
+    selectTags.style.display = 'block'
+    optionsDiv.style.display = 'none'
+    loadingDiv.style.display= 'block'
+    clearInterval(timerInterval)
+    displayTime.textContent = ''
+    disScore.textContent = score
+    category = ''
+    difficulty = ''
+}
+
+  if (attempts < 2) {
+    for (var i = 0; i < radioInput.length; i++) {
+      if (radioInput[i].checked) {
+        // txt = txt + radioInput[i].value;
+        if (allData[count].correct_answer == radioInput[i].nextSibling.textContent) {
+          count++
+          score++
+          // radioInput[i].nextSibling.setAttribute("class", "correct")
+          radioInput[i].nextSibling.style.color = 'green'
+          clearInterval(timerInterval)
+          displayOptions()
+          countDown()
+        }
+        else {
+          // alert('incorrect')
+          attempts++
+          // radioInput[i].nextSibling.setAttribute("class", "wrong")
+          radioInput[i].nextSibling.style.color = 'tomoto'
+          correctAns.style.color = 'cyan'
+          correctAns.textContent = "You have one more attempt"
+          // console.log("you have one more attempt")
+        }
+        radioInput[i].checked = false
+        // uncheck = i
+        // break
+      }
     }
+  
+    if(attempts == 2) {
+      correctAns.style.color = 'white'
+      correctAns.textContent = "The correct answer is " +  allData[count].correct_answer
+    }
+
+  } else {
+    console.log(attempts, 'else')
+    clearInterval(timerInterval)
+    count++
+    attempts = 0
+  displayOptions()
+  countDown()
   }
+
+
+
+    
   // console.log(txt)
   // console.log(selectData)
-  console.log(allData[count].correct_answer, option1.textContent)
-  radioInput[uncheck].checked = false
+  // radioInput[uncheck].checked = false
 
 })
+
+function countDown() {
+  var time = 0
+  if (difficulty == 'easy') {
+    time = 30
+    timerCountDown(time)
+  } else if (difficulty == 'medium') {
+    time = 45
+    timerCountDown(time)
+  } else if (difficulty == 'hard') {
+    time = 60
+    timerCountDown(time)
+  }
+
+
+  // x = setInterval(() => {
+  //   if (time != 0) {
+  //     time = time - 1
+  //     displayTime.textContent = time
+  //   } else {
+  //     // clearInterval()
+  //     count++
+  //     displayOptions()
+  //     if (difficulty == 'easy') {
+  //       time = 30
+  //       timerCountDown(time)
+
+  //     } else if (difficulty == 'medium') {
+  //       time = 45
+  //       timerCountDown(time)
+
+  //     } else if (difficulty == 'hard') {
+  //       time = 60
+  //       timerCountDown(time)
+  //     }
+  //   }
+  // }, 1000)
+}
 
 console.log(option1.textContent)
 
@@ -170,13 +269,18 @@ function shuffle(array) {
 }
 
 function displayOptions() {
-  
-  console.log(allData[count].type, allData[count].correct_answer, allData[count].incorrect_answers[0])
+  scoreTrack.style.color = 'white'
+  scoreTrack.textContent = score + "/10"
+  attempts = 0
   loadingDiv.style.display = 'none'
   optionsDiv.style.display = 'block'
-  question.innerHTML = count + 1 + " " + allData[count].question
+  question.style.color = "black"
+  question.innerHTML = count + 1 + ". " + allData[count].question
+ 
 
   if (allData[count].type == "boolean") {
+    option1.style.color = '#fff'
+    option2.style.color = '#fff'
     option1.textContent = "True"
     option2.textContent = "False"
     bol1.style.display = 'none'
@@ -187,24 +291,33 @@ function displayOptions() {
     bol2.style.display = 'block'
 
     allData[count].incorrect_answers.push(allData[count].correct_answer)
-  
-    console.log(allData[count].incorrect_answers ,"incorrect")
+
+    console.log(allData[count].incorrect_answers, "incorrect")
     console.log(shuffle(allData[count].incorrect_answers))
 
     shuffle(allData[count].incorrect_answers)
     for (i = 0; i < 4; i++) {
 
       labels[i].textContent = allData[count].incorrect_answers[i]
+      labels[i].parentElement.checked = false
+      labels[i].style.color='#fff'
     }
 
   }
+
+  correctAns.textContent = ''
 }
 
 startQuiz.addEventListener('click', () => {
   if (category != '' && difficulty != '') {
     selectTags.style.display = 'none'
+    score = 0
+    count = 0
+    attempts = 0
+    disScore.textContent = ''
+    timerDiv.style.display = 'block'
     loadFlag = true
-     
+    countDown()
     displayOptions()
   } else {
     loadingPara.textContent = "Please Choose Category and Difficulty"
@@ -218,6 +331,147 @@ if (!loadFlag) {
 }
 
 
+// 
+
+// Timer functionality
+
+function timerCountDown(timeVal){
+  const FULL_DASH_ARRAY = 283;
+const WARNING_THRESHOLD = 10;
+const ALERT_THRESHOLD = 5;
+
+const COLOR_CODES = {
+  info: {
+    color: "green"
+  },
+  warning: {
+    color: "orange",
+    threshold: WARNING_THRESHOLD
+  },
+  alert: {
+    color: "red",
+    threshold: ALERT_THRESHOLD
+  }
+};
+
+const TIME_LIMIT = timeVal;
+let timePassed = 0;
+let timeLeft = TIME_LIMIT;
+// var timerInterval = null;
+let remainingPathColor = COLOR_CODES.info.color;
+
+document.getElementById("app").innerHTML = `
+<div class="base-timer">
+  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <g class="base-timer__circle">
+      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+      <path
+        id="base-timer-path-remaining"
+        stroke-dasharray="283"
+        class="base-timer__path-remaining ${remainingPathColor}"
+        d="
+          M 50, 50
+          m -45, 0
+          a 45,45 0 1,0 90,0
+          a 45,45 0 1,0 -90,0
+        "
+      ></path>
+    </g>
+  </svg>
+  <span id="base-timer-label" class="base-timer__label">${formatTime(
+    timeLeft
+  )}</span>
+</div>
+`;
+
+startTimer();
+
+function onTimesUp() {
+  clearInterval(timerInterval);
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timePassed = timePassed += 1;
+    timeLeft = TIME_LIMIT - timePassed;
+    document.getElementById("base-timer-label").innerHTML = formatTime(
+      timeLeft
+    );
+    setCircleDasharray();
+    setRemainingPathColor(timeLeft);
+
+    if (timeLeft === 0) {
+      onTimesUp();
+      clearInterval()
+      count++
+      if(count >= 10){
+        displayLandPage()
+      }
+      else{
+
+        displayOptions()
+        if (difficulty == 'easy') {
+          time = 30
+          timerCountDown(time)
+  
+        } else if (difficulty == 'medium') {
+          time = 45
+          timerCountDown(time)
+  
+        } else if (difficulty == 'hard') {
+          time = 60
+          timerCountDown(time)
+        }
+      }
+
+    }
+  }, 1000);
+}
+
+function formatTime(time) {
+  const minutes = Math.floor(time / 60);
+  let seconds = time % 60;
+
+  if (seconds < 10) {
+    seconds = `0${seconds}`;
+  }
+
+  return `${minutes}:${seconds}`;
+}
+
+function setRemainingPathColor(timeLeft) {
+  const { alert, warning, info } = COLOR_CODES;
+  if (timeLeft <= alert.threshold) {
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.remove(warning.color);
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.add(alert.color);
+  } else if (timeLeft <= warning.threshold) {
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.remove(info.color);
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.add(warning.color);
+  }
+}
+
+function calculateTimeFraction() {
+  const rawTimeFraction = timeLeft / TIME_LIMIT;
+  return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+}
+
+function setCircleDasharray() {
+  const circleDasharray = `${(
+    calculateTimeFraction() * FULL_DASH_ARRAY
+  ).toFixed(0)} 283`;
+  document
+    .getElementById("base-timer-path-remaining")
+    .setAttribute("stroke-dasharray", circleDasharray);
+}
+}
 
 
 
