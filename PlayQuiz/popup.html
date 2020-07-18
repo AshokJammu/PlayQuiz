@@ -10,7 +10,7 @@
   <div>
     <!-- <h1>Level 12</h1> -->
     <!-- <p>1 out of 3</p> -->
-    <div>
+    <div id='selectTags'>
       <select id="catSelect">
         <option>select Category</option>
       </select>
@@ -24,14 +24,14 @@
     <div id="optionsDiv">
       <p id="question">1.</p>
       <form>
-        <input type="radio" name="option" value="opt1" /><label id="option1">sdf</label><br />
-        <input type="radio" name="option" value="opt2" /><label id="option2">sdf</label><br />
+        <input type="radio" name="option" value="opt1" /><label id="option1"></label><br />
+        <input type="radio" name="option" value="opt2" /><label id="option2"></label><br />
         <div id='bol1'>
 
-          <input type="radio" name="option" value="opt3" /><label id="option3">dsfs</label><br />
+          <input type="radio" name="option" value="opt3" /><label id="option3"></label><br />
         </div>
         <div id='bol2'>
-          <input type="radio" name="option" value="opt4" /><label id="option4">sdfsd</label><br />
+          <input type="radio" name="option" value="opt4" /><label id="option4"></label><br />
         </div>
         <br />
         <input type="submit" onclick="onSubmit()" value="Submit" />
@@ -39,7 +39,8 @@
     </div>
 
     <div id='loadingDiv'>
-
+      <p id='loadingPara'></p>
+        <button id='startQuiz'>start quiz</button>
     </div>
   </div>
 
