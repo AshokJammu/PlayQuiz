@@ -170,6 +170,7 @@ function shuffle(array) {
 }
 
 function displayOptions() {
+  
   console.log(allData[count].type, allData[count].correct_answer, allData[count].incorrect_answers[0])
   loadingDiv.style.display = 'none'
   optionsDiv.style.display = 'block'
@@ -203,7 +204,7 @@ startQuiz.addEventListener('click', () => {
   if (category != '' && difficulty != '') {
     selectTags.style.display = 'none'
     loadFlag = true
-
+     
     displayOptions()
   } else {
     loadingPara.textContent = "Please Choose Category and Difficulty"
