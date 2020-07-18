@@ -3,13 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="popup.css">
   <title>PlayQuiz</title>
+
 </head>
 
 <body>
-  <div>
+
+
+  <div class="questions ">
     <!-- <h1>Level 12</h1> -->
     <!-- <p>1 out of 3</p> -->
+    <h1 class="text-center element-animation1">Play Quiz</h1>
+    <div id='timer'>
+      <h1 id='displayTime'>0</h1>
+    </div>
     <div id='selectTags'>
       <select id="catSelect">
         <option>select Category</option>
@@ -21,27 +29,43 @@
         <option value='hard'>Hard</option>
       </select>
     </div>
-    <div id="optionsDiv">
-      <p id="question">1.</p>
-      <form>
-        <input type="radio" name="option" value="opt1" /><label id="option1"></label><br />
-        <input type="radio" name="option" value="opt2" /><label id="option2"></label><br />
-        <div id='bol1'>
 
-          <input type="radio" name="option" value="opt3" /><label id="option3"></label><br />
+    <h1 id="disScore">
+
+    </h1>
+    <div id="optionsDiv" class="questions">
+      <p id="question" class="question1">1.</p>
+      <form>
+        <div class="questions element-animation1">
+          <input type="radio" name="option" value="opt1" /><label id="option1" class="element-animation1"></label><br />
         </div>
-        <div id='bol2'>
-          <input type="radio" name="option" value="opt4" /><label id="option4"></label><br />
+        <br>
+        <div class="questions element-animation2">
+          <input type="radio" name="option" value="opt2" /><label id="option2" class="element-animation2"></label><br />
+        </div>
+        <br>
+        <div id='bol1' class="questions element-animation3">
+          <input type="radio" name="option" value="opt3" /><label id="option3" class="element-animation3"></label><br />
+        </div>
+        <br>
+        <div id='bol2' class="questions element-animation4">
+          <input type="radio" name="option" value="opt4" /><label id="option4" class="element-animation4"></label><br />
         </div>
         <br />
-   
       </form>
-      <button id='submit'>Submit</button>
+      <div>
+        <div id='correctAns'> </div>
+        <div id='scoreTrack' style="float: right;"></div>
+      </div>
+      <div>
+        <button id="submit" class="submit-button element-animation1">submit</button>
+      </div>
+
     </div>
 
     <div id='loadingDiv'>
-      <p id='loadingPara'></p>
-        <button id='startQuiz'>start quiz</button>
+      <p id='loadingPara' ></p>
+      <button id='startQuiz' class="submit-button element-animation1">start quiz</button>
     </div>
   </div>
 

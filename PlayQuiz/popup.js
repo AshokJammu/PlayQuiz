@@ -5,12 +5,16 @@ var loadingDiv = document.getElementById('loadingDiv')
 var startQuiz = document.getElementById('startQuiz')
 var selectTags = document.getElementById('selectTags')
 var loadingPara = document.getElementById('loadingPara')
-var submit = document.getElementById('submit')
+var submitBtn = document.getElementById('submit')
+var timerDiv = document.getElementById('timer')
+var displayTime = document.getElementById('displayTime')
+var correctAns = document.getElementById('correctAns')
+var scoreTrack = document.getElementById('scoreTrack')
+var disScore = document.getElementById('disScore')
 
+timerDiv.style.display = 'none'
 
 var loadFlag = false
-
-
 
 let labels = document.querySelectorAll('label')
 
@@ -21,13 +25,20 @@ var question = document.getElementById('question')
 
 var allData = []
 
+var x
+
 let count = 0
 var selectData = []
+
+var attempts = 0
+var score = 0
 
 let category = ''
 let difficulty = ''
 
 var diffFlag = false
+
+let quizFlag = false
 
 catSelect.addEventListener('change', async () => {
   console.log(event.target.value)
@@ -45,23 +56,19 @@ catSelect.addEventListener('change', async () => {
   allData = selectData.results
 
   count = 0
- 
+
   // selectData = allData.filter(elem => elem.category == event.target.value && elem)
-  if (loadFlag) {
-    displayOptions()
-  }
+  // if (loadFlag && category != '' && difficulty != '' && quizFlag ) {
+  //   quizFlag = false
+  //   displayOptions()
+  // }
 })
 
 
 diffSelect.addEventListener('change', async () => {
   console.log(event.target.value)
 
-  //  if(selectData.length > 0) {
-  //    allData = selectData.filter(elem => elem.difficulty == 'event.target.value')
-  //  }else {
-  //     allData = allData.filter(elem => elem.difficulty == 'event.target.value')
-  //  }
-  // if(category) {
+  
 
   difficulty = event.target.value
 
@@ -75,9 +82,7 @@ diffSelect.addEventListener('change', async () => {
 
   count = 0
   console.log(allData)
-  if (loadFlag) {
-    displayOptions()
-  }
+
 })
 
 
@@ -87,8 +92,7 @@ async function checkData() {
     var res = await getData(i)
     console.log(res.results[0].category)
     let cat = res.results[0].category
-    // let diff = res.results[0].difficulty
-    //  selectData.push(res.results[0].category)
+  
 
     for (let j = 0; j < res.results.length; j++) {
       allData.push(res.results[j])
@@ -98,10 +102,7 @@ async function checkData() {
     catOpt.value = i
     catOpt.textContent = cat
     catSelect.append(catOpt)
-    // var diffOpt = document.createElement('option')
-    // diffOpt.value = diff
-    // diffOpt.textContent = diff
-    // diffSelect.append(diffOpt)
+
     i++
   }
   console.log(allData)
@@ -121,45 +122,114 @@ function getData(x) {
   } else {
     return fetch("https://opentdb.com/api.php?amount=10&category=" + category + "&difficulty=" + x)
       .then(data => data.json())
+
   }
 }
 
 checkData()
 
-var attempts = 0
+// function onSubmit() {
+submitBtn.addEventListener('click', () => {
 
-submit.addEventListener('click', () => {
-  event.preventDefault()
  
+  event.preventDefault()
+  
   var radioInput = document.querySelectorAll("input");
-  var txt = "";
+
+
+  console.log(attempts, count, "count")
+   
+  // var txt = "";
   var uncheck = 0
   console.log(event.target.nextSibling)
-  for (var i = 0; i < radioInput.length; i++) {
-    if (radioInput[i].checked) {
-      // txt = txt + radioInput[i].value;
-      if (allData[count].correct_answer == radioInput[i].nextSibling.textContent) {
-        count++
-        attempts = 0
-        displayOptions()
-      } else {
-        // alert('incorrect')
-        attempts++
+
+  if(count+1 >= 10) {
+    selectTags.style.display = 'block'
+    optionsDiv.style.display = 'none'
+    loadingDiv.style.display= 'block'
+    clearInterval(x)
+    displayTime.textContent = ''
+    disScore.textContent = score
+    category = ''
+    difficulty = ''
+}
+
+  if (attempts < 2) {
+    for (var i = 0; i < radioInput.length; i++) {
+      if (radioInput[i].checked) {
+        // txt = txt + radioInput[i].value;
+        if (allData[count].correct_answer == radioInput[i].nextSibling.textContent) {
+          count++
+          score++
+          // radioInput[i].nextSibling.setAttribute("class", "correct")
+          radioInput[i].nextSibling.style.color = 'green'
+          clearInterval(x)
+          displayOptions()
+          countDown()
+        }
+        else {
+          // alert('incorrect')
+          attempts++
+          // radioInput[i].nextSibling.setAttribute("class", "wrong")
+          radioInput[i].nextSibling.style.color = 'red'
+        }
+        radioInput[i].checked = false
+        // uncheck = i
+        // break
       }
-      radioInput[i].checked = false
-      // uncheck = i
-      break
     }
+  
+    if(attempts == 2) {
+      correctAns.textContent = "THe correct answer is " +  allData[count].correct_answer
+    }
+
+  } else {
+    console.log(attempts, 'else')
+    clearInterval(x)
+    count++
+    attempts = 0
+  displayOptions()
+  countDown()
   }
 
-  if(attempts == 2) {
-      
-  }
+
+
+    
   // console.log(txt)
   // console.log(selectData)
-  radioInput[uncheck].checked = false
+  // radioInput[uncheck].checked = false
 
 })
+
+function countDown() {
+  var time = 0
+  if (difficulty == 'easy') {
+    time = 30
+  } else if (difficulty == 'medium') {
+    time = 45
+  } if (difficulty == 'hard') {
+    time = 60
+  }
+
+
+  x = setInterval(() => {
+    if (time != 0) {
+      time = time - 1
+      displayTime.textContent = time
+    } else {
+      // clearInterval()
+      count++
+      displayOptions()
+      if (difficulty == 'easy') {
+        time = 30
+      } else if (difficulty == 'medium') {
+        time = 45
+      } if (difficulty == 'hard') {
+        time = 60
+      }
+    }
+  }, 1000)
+}
 
 console.log(option1.textContent)
 
@@ -168,11 +238,16 @@ function shuffle(array) {
 }
 
 function displayOptions() {
+  scoreTrack.textContent = "Score: " +  score + "/10"
+  attempts = 0
   loadingDiv.style.display = 'none'
   optionsDiv.style.display = 'block'
   question.innerHTML = count + 1 + " " + allData[count].question
+ 
 
   if (allData[count].type == "boolean") {
+    option1.style.color = '#fff'
+    option2.style.color = '#fff'
     option1.textContent = "True"
     option2.textContent = "False"
     bol1.style.display = 'none'
@@ -184,20 +259,32 @@ function displayOptions() {
 
     allData[count].incorrect_answers.push(allData[count].correct_answer)
 
+    console.log(allData[count].incorrect_answers, "incorrect")
+    console.log(shuffle(allData[count].incorrect_answers))
+
     shuffle(allData[count].incorrect_answers)
     for (i = 0; i < 4; i++) {
 
       labels[i].textContent = allData[count].incorrect_answers[i]
+      labels[i].parentElement.checked = false
+      labels[i].style.color='#fff'
     }
 
   }
+
+  correctAns.textContent = ''
 }
 
 startQuiz.addEventListener('click', () => {
   if (category != '' && difficulty != '') {
     selectTags.style.display = 'none'
+    score = 0
+    count = 0
+    attempts = 0
+    disScore.textContent = ''
+    timerDiv.style.display = 'block'
     loadFlag = true
-
+    countDown()
     displayOptions()
   } else {
     loadingPara.textContent = "Please Choose Category and Difficulty"
