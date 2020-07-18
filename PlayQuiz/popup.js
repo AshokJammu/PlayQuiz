@@ -5,9 +5,11 @@ var loadingDiv = document.getElementById('loadingDiv')
 var startQuiz = document.getElementById('startQuiz')
 var selectTags = document.getElementById('selectTags')
 var loadingPara = document.getElementById('loadingPara')
+var submit = document.getElementById('submit')
 
 
 var loadFlag = false
+
 
 
 let labels = document.querySelectorAll('label')
@@ -20,7 +22,7 @@ var question = document.getElementById('question')
 var allData = []
 
 let count = 0
-var selectData
+var selectData = []
 
 let category = ''
 let difficulty = ''
@@ -35,7 +37,7 @@ catSelect.addEventListener('change', async () => {
   //         selectData.push(allData[i])
   //       }
   //  }
-  diffFlag = false
+  diffFlag = true
 
   category = event.target.value
   selectData = await getData(event.target.value)
@@ -43,6 +45,7 @@ catSelect.addEventListener('change', async () => {
   allData = selectData.results
 
   count = 0
+ 
   // selectData = allData.filter(elem => elem.category == event.target.value && elem)
   if (loadFlag) {
     displayOptions()
@@ -73,7 +76,6 @@ diffSelect.addEventListener('change', async () => {
   count = 0
   console.log(allData)
   if (loadFlag) {
-
     displayOptions()
   }
 })
@@ -124,8 +126,11 @@ function getData(x) {
 
 checkData()
 
-function onSubmit() {
+var attempts = 0
+
+submit.addEventListener('click', () => {
   event.preventDefault()
+ 
   var radioInput = document.querySelectorAll("input");
   var txt = "";
   var uncheck = 0
@@ -135,21 +140,26 @@ function onSubmit() {
       // txt = txt + radioInput[i].value;
       if (allData[count].correct_answer == radioInput[i].nextSibling.textContent) {
         count++
+        attempts = 0
         displayOptions()
       } else {
-        alert('incorrect')
+        // alert('incorrect')
+        attempts++
       }
       radioInput[i].checked = false
       // uncheck = i
       break
     }
   }
+
+  if(attempts == 2) {
+      
+  }
   // console.log(txt)
   // console.log(selectData)
-  console.log(allData[count].correct_answer, option1.textContent)
   radioInput[uncheck].checked = false
 
-}
+})
 
 console.log(option1.textContent)
 
@@ -158,7 +168,6 @@ function shuffle(array) {
 }
 
 function displayOptions() {
-  console.log(allData[count].type, allData[count].correct_answer, allData[count].incorrect_answers[0])
   loadingDiv.style.display = 'none'
   optionsDiv.style.display = 'block'
   question.innerHTML = count + 1 + " " + allData[count].question
