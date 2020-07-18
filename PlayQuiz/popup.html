@@ -1,26 +1,49 @@
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PlayQuiz</title>
-  </head>
-  <body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlayQuiz</title>
+</head>
+
+<body>
+  <div>
+    <!-- <h1>Level 12</h1> -->
+    <!-- <p>1 out of 3</p> -->
     <div>
-      <h1>Level 12</h1>
-      <p>1 out of 3</p>
-      <div>
-        <p id="question">1.</p>
-        <form>
-          <input type="radio" name="option" value="opt1" />option1<br />
-          <input type="radio" name="option" value="opt2" />option2<br />
-          <input type="radio" name="option" value="opt3" />option3<br />
-          <input type="radio" name="option" value="opt4" />option4<br />
-          <br />
-          <input type="submit" onclick="onSubmit()" value="Submit" />
-        </form>
-      </div>
+      <select id="catSelect">
+        <option>select Category</option>
+      </select>
+      <select id="diffSelect">
+        <option>Select Difficulty</option>
+        <option value='easy'>Easy</option>
+        <option value='medium'>Medium</option>
+        <option value='hard'>Hard</option>
+      </select>
+    </div>
+    <div id="optionsDiv">
+      <p id="question">1.</p>
+      <form>
+        <input type="radio" name="option" value="opt1" /><label id="option1">sdf</label><br />
+        <input type="radio" name="option" value="opt2" /><label id="option2">sdf</label><br />
+        <div id='bol1'>
+
+          <input type="radio" name="option" value="opt3" /><label id="option3">dsfs</label><br />
+        </div>
+        <div id='bol2'>
+          <input type="radio" name="option" value="opt4" /><label id="option4">sdfsd</label><br />
+        </div>
+        <br />
+        <input type="submit" onclick="onSubmit()" value="Submit" />
+      </form>
     </div>
 
-    <script src="popup.js"></script>
-  </body>
+    <div id='loadingDiv'>
+
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+
 </html>
