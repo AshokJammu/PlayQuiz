@@ -3,43 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="popup.css">
   <title>PlayQuiz</title>
+
 </head>
 
 <body>
-  <div>
+  <div class="questions">
     <!-- <h1>Level 12</h1> -->
     <!-- <p>1 out of 3</p> -->
-    <div>
+    <h1 >Play Quiz</h1>
+    <div id='selectTags'>
       <select id="catSelect">
         <option>select Category</option>
       </select>
-      <select id="diffSelect">
+      <select id="diffSelect"  >
         <option>Select Difficulty</option>
         <option value='easy'>Easy</option>
         <option value='medium'>Medium</option>
         <option value='hard'>Hard</option>
       </select>
     </div>
-    <div id="optionsDiv">
-      <p id="question">1.</p>
+    <div id="optionsDiv" class="questions">
+      <p id="question" class="question1">1.</p>
       <form>
-        <input type="radio" name="option" value="opt1" /><label id="option1">sdf</label><br />
-        <input type="radio" name="option" value="opt2" /><label id="option2">sdf</label><br />
-        <div id='bol1'>
-
-          <input type="radio" name="option" value="opt3" /><label id="option3">dsfs</label><br />
+          <div class="questions element-animation1">
+              <input type="radio" name="option" value="opt1" /><label id="option1" class="element-animation1"></label><br />
+          </div>
+          <br>
+          <div  class="questions element-animation2">
+              <input type="radio" name="option" value="opt2" /><label id="option2" class="element-animation2"></label><br />
+          </div>
+          <br>
+        <div id='bol1'  class="questions element-animation3">
+          <input type="radio" name="option" value="opt3" /><label id="option3" class="element-animation3"></label><br />
         </div>
-        <div id='bol2'>
-          <input type="radio" name="option" value="opt4" /><label id="option4">sdfsd</label><br />
+        <br>
+        <div id='bol2'  class="questions element-animation4">
+          <input type="radio" name="option" value="opt4"  /><label id="option4" class="element-animation4"></label><br />
         </div>
         <br />
-        <input type="submit" onclick="onSubmit()" value="Submit" />
-      </form>
-    </div>
+    </form>
+    <button id="submit" class="submit-button">submit</button>
+
+</div>
 
     <div id='loadingDiv'>
-
+      <p id='loadingPara'></p>
+        <button id='startQuiz' class="submit-button">start quiz</button>
     </div>
   </div>
 
