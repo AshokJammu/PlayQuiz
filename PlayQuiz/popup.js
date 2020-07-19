@@ -180,7 +180,7 @@ homeBtn.addEventListener('click', () => {
   dashDiv.style.display = 'none'
   displayLandPage()
   if (count >= 1 && count < 9) {
-    loadingPara.textContent = "Invalid Attempt"
+    loadingPara.innerHTML = "Invalid Attempt" + "&#129320;"
 
     let dashObj = {
       category: catName,
@@ -238,14 +238,9 @@ dashBtn.addEventListener('click', ()=> {
 // function onSubmit() {
 submitBtn.addEventListener('click', () => {
 
-
-
-
   event.preventDefault()
 
   var radioInput = document.querySelectorAll("input");
-
-
   console.log(attempts, count, "count")
 
   // var txt = "";
@@ -261,12 +256,15 @@ submitBtn.addEventListener('click', () => {
     if (score < 5) {
       status = "Fail"
       feedback = 'Reattempt the Quiz'
+      disScore.innerHTML = "Score is " + score + "&#128553;"
     } else if (score >= 5 && score <= 7) {
       status = "Satisfactory"
       feedback = 'Need to Improve'
+      disScore.innerHTML = "Score is "  + score + "&#128533;"
     } else {
       status = "Excellent"
       feedback = 'Try new concept'
+      disScore.innerHTML = "Score is "  + score + "&#128525;"
     }
 
     // if (count == 10) {
@@ -289,10 +287,10 @@ submitBtn.addEventListener('click', () => {
     selectTags.style.display = 'block'
     optionsDiv.style.display = 'none'
     loadingDiv.style.display = 'block'
-    loadingPara.textContent = 'Congratulations you are succesfully completed'
+    loadingPara.textContent = 'Succesfully completed the Quiz'
     clearInterval(timerInterval)
     timerDiv.textContent = ''
-    disScore.innerHTML = "Score is " + "<br/>" + score
+  
     category = ''
     difficulty = ''
 
@@ -531,10 +529,9 @@ function timerCountDown(timeVal) {
         clearInterval()
         count++
         if (count >= 10) {
-          disScore.innerHTML = "Score is " + "<br/>" + score
+          // disScore.innerHTML = "Score is " + "<br/>" + score + "&#128525;"
           loadingPara.textContent = 'Congratulations you are succesfully completed'
           displayLandPage()
-
 
 
           var status = ''
@@ -542,12 +539,15 @@ function timerCountDown(timeVal) {
           if (score < 5) {
             status = "Fail"
             feedback = 'Reattempt the Quiz'
+            disScore.innerHTML = "Score is " + "<br/>" + score + "&#128553;"
           } else if (score >= 5 && score <= 7) {
             status = "Satisfactory"
             feedback = 'Need to Improve'
+            disScore.innerHTML = "Score is " + "<br/>" + score + "&#128533;"
           } else {
             status = "Excellent"
             feedback = 'Try new concept'
+            disScore.innerHTML = "Score is " + "<br/>" + score + "&#128525;"
           }
 
           if (count == 10) {
