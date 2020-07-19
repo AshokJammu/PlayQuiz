@@ -27,6 +27,7 @@ var question = document.getElementById('question')
 var allData = []
 
 // var x
+// Splitting()
 var timerInterval = null;
 
 let count = 0
@@ -192,7 +193,7 @@ submitBtn.addEventListener('click', () => {
           // radioInput[i].nextSibling.setAttribute("class", "wrong")
           radioInput[i].nextSibling.style.color = 'tomoto'
           correctAns.style.color = 'cyan'
-          correctAns.textContent = "You have one more attempt"
+          correctAns.textContent = "You have one more attempt &#128534"	
           // console.log("you have one more attempt")
         }
         radioInput[i].checked = false
