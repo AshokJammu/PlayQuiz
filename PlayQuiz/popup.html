@@ -10,66 +10,99 @@
 </head>
 
 <body>
+  <div style="width: 650px;">
 
-  <div class="questions ">
-    <!-- <h1>Level 12</h1> -->
-    <!-- <p>1 out of 3</p> -->
-    <!-- <button class="btn"><i class="fa fa-home"></i></button> -->
-    
-    <button class="btn" id="home"><i class="fa fa-home"></i> Home</button>
-    <h1 class="text-center element-animation1">Play Quiz</h1>
-    <div id='timer'  style="margin-left: 500px;">
-      <!-- <h1 id='displayTime'>0</h1> -->
-      <div id="app" class="timerBody"></div>
-    </div>
-    <div id='selectTags'>
-      <select id="catSelect">
-        <option>select Category</option>
-      </select>
-      <select id="diffSelect">
-        <option>Select Difficulty</option>
-        <option value='easy'>Easy</option>
-        <option value='medium'>Medium</option>
-        <option value='hard'>Hard</option>
-      </select>
+    <div>
+      <button class="btn" id="home" style="float: left;"><i class="fa fa-home"></i> Home</button>
+      <button class="btn" id="dashboard" style="float: right;"><i class="fa fa-dashboard"></i> Dashboard</button>
     </div>
 
-    <h1 id="disScore">
 
-    </h1>
-    <div id="optionsDiv" class="questions">
-      <p id="question" class="question1">1.</p>
-      <form>
-        <div class="questions element-animation1">
-          <input type="radio" name="option" value="opt1" /><label id="option1" class="element-animation1"></label><br />
-        </div>
-        <br>
-        <div class="questions element-animation2">
-          <input type="radio" name="option" value="opt2" /><label id="option2" class="element-animation2"></label><br />
-        </div>
-        <br>
-        <div id='bol1' class="questions element-animation3">
-          <input type="radio" name="option" value="opt3" /><label id="option3" class="element-animation3"></label><br />
-        </div>
-        <br>
-        <div id='bol2' class="questions element-animation4">
-          <input type="radio" name="option" value="opt4" /><label id="option4" class="element-animation4"></label><br />
-        </div>
-        <br />
-      </form>
-      <div>
-        <div id='correctAns'> </div>
-        <div style="color: goldenrod; font-size: 25px; float: right;">SCORE: <label id="scoreTrack"></label></div>
+    <div id="homeDiv" class="questions ">
+      <!-- <h1>Level 12</h1> -->
+      <!-- <p>1 out of 3</p> -->
+      <!-- <button class="btn"><i class="fa fa-home"></i></button> -->
+
+
+      <h1 class="text-center element-animation1" style="font-size: 50px; "> Play Quiz</h1>
+      <div id='timer' style="margin-left: 500px;">
+        <!-- <h1 id='displayTime'>0</h1> -->
+        <div id="app" class="timerBody"></div>
       </div>
-      <div>
-        <button id="submit" class="submit-button element-animation1">submit</button>
+      <div id='selectTags'>
+        <select id="catSelect">
+          <option>select Category</option>
+        </select>
+        <select id="diffSelect">
+          <option>Select Difficulty</option>
+          <option value='easy'>Easy</option>
+          <option value='medium'>Medium</option>
+          <option value='hard'>Hard</option>
+        </select>
       </div>
 
-    </div>
+      <h1 id="disScore">
 
-    <div id='loadingDiv'>
-      <p id='loadingPara' ></p>
-      <button id='startQuiz' class="submit-button element-animation1">start quiz</button>
+      </h1>
+      <div id="optionsDiv" class="questions">
+        <p id="question" class="question1">1.</p>
+        <form>
+          <div class="questions element-animation1">
+            <input type="radio" name="option" value="opt1" /><label id="option1"
+              class="element-animation1"></label><br />
+          </div>
+          <br>
+          <div class="questions element-animation2">
+            <input type="radio" name="option" value="opt2" /><label id="option2"
+              class="element-animation2"></label><br />
+          </div>
+          <br>
+          <div id='bol1' class="questions element-animation3">
+            <input type="radio" name="option" value="opt3" /><label id="option3"
+              class="element-animation3"></label><br />
+          </div>
+          <br>
+          <div id='bol2' class="questions element-animation4">
+            <input type="radio" name="option" value="opt4" /><label id="option4"
+              class="element-animation4"></label><br />
+          </div>
+          <br />
+        </form>
+        <div>
+          <div id='correctAns'> </div>
+          <div style="color: goldenrod; font-size: 25px; float: right;">SCORE: <label id="scoreTrack"></label></div>
+        </div>
+        <div>
+          <button id="submit" class="submit-button element-animation1">submit</button>
+        </div>
+
+      </div>
+
+      <div id='loadingDiv'>
+        <p id='loadingPara'></p>
+        <button id='startQuiz' class="submit-button element-animation1">start quiz</button>
+      </div>
+    </div>
+ 
+    <br/>
+
+    <div id='dashDiv'>
+      <div >
+        <table id='customers'>
+          <thead>
+            <tr>
+              <th>Sl.No</th>
+              <th>Category</th>
+              <th>Difficulty</th>
+              <th>Score</th>
+              <th>Status</th>
+              <th>Feedback</th>
+            </tr>
+          </thead>
+          <tbody id='tbody'>
+
+          </tbody>
+      </div>
     </div>
   </div>
 
