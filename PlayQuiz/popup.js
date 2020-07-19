@@ -256,15 +256,15 @@ submitBtn.addEventListener('click', () => {
     if (score < 5) {
       status = "Fail"
       feedback = 'Reattempt the Quiz'
-      disScore.innerHTML = "Score is " + score + "&#128553;"
+      disScore.innerHTML = "Score is " + score + " &#128553;"
     } else if (score >= 5 && score <= 7) {
       status = "Satisfactory"
       feedback = 'Need to Improve'
-      disScore.innerHTML = "Score is "  + score + "&#128533;"
+      disScore.innerHTML = "Score is "  + score + " &#128533;"
     } else {
       status = "Excellent"
       feedback = 'Try new concept'
-      disScore.innerHTML = "Score is "  + score + "&#128525;"
+      disScore.innerHTML = "Score is "  + score + " &#128525;"
     }
 
     // if (count == 10) {
@@ -530,7 +530,7 @@ function timerCountDown(timeVal) {
         count++
         if (count >= 10) {
           // disScore.innerHTML = "Score is " + "<br/>" + score + "&#128525;"
-          loadingPara.textContent = 'Congratulations you are succesfully completed'
+          loadingPara.textContent = 'Succesfully completed the Quiz'
           displayLandPage()
 
 
@@ -539,15 +539,15 @@ function timerCountDown(timeVal) {
           if (score < 5) {
             status = "Fail"
             feedback = 'Reattempt the Quiz'
-            disScore.innerHTML = "Score is " + "<br/>" + score + "&#128553;"
+            disScore.innerHTML = "Score is " + score + " &#128553;"
           } else if (score >= 5 && score <= 7) {
             status = "Satisfactory"
             feedback = 'Need to Improve'
-            disScore.innerHTML = "Score is " + "<br/>" + score + "&#128533;"
+            disScore.innerHTML = "Score is " + score + " &#128533;"
           } else {
             status = "Excellent"
             feedback = 'Try new concept'
-            disScore.innerHTML = "Score is " + "<br/>" + score + "&#128525;"
+            disScore.innerHTML = "Score is " + score + " &#128525;"
           }
 
           if (count == 10) {
