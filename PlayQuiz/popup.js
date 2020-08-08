@@ -250,6 +250,9 @@ submitBtn.addEventListener('click', () => {
   if (count  >= 10) {
 
 
+    loadingPara.textContent = 'Succesfully completed the Quiz'
+    displayLandPage()
+
 
     var status = ''
     var feedback = ''
@@ -260,14 +263,14 @@ submitBtn.addEventListener('click', () => {
     } else if (score >= 5 && score <= 7) {
       status = "Satisfactory"
       feedback = 'Need to Improve'
-      disScore.innerHTML = "Score is "  + score + " &#128533;"
+      disScore.innerHTML = "Score is " + score + " &#128533;"
     } else {
       status = "Excellent"
       feedback = 'Try new concept'
-      disScore.innerHTML = "Score is "  + score + " &#128525;"
+      disScore.innerHTML = "Score is " + score + " &#128525;"
     }
 
-    // if (count == 10) {
+    if (count == 10) {
       let dashObj = {
         category: catName,
         difficulty: difficulty,
@@ -280,24 +283,10 @@ submitBtn.addEventListener('click', () => {
       console.log(localData)
       localData.push(dashObj)
       localStorage.setItem('dashArray', JSON.stringify(localData))
-    // }
+    }
 
 
-
-    selectTags.style.display = 'block'
-    optionsDiv.style.display = 'none'
-    loadingDiv.style.display = 'block'
-    loadingPara.textContent = 'Succesfully completed the Quiz'
-    clearInterval(timerInterval)
-    timerDiv.textContent = ''
-  
-    category = ''
-    difficulty = ''
-
-
-  }
-
-  if (attempts < 2) {
+  }else if (attempts < 2) {
     for (var i = 0; i < radioInput.length; i++) {
       if (radioInput[i].checked) {
         // txt = txt + radioInput[i].value;
@@ -323,6 +312,9 @@ submitBtn.addEventListener('click', () => {
         // uncheck = i
         // break
       }
+
+
+      
     }
 
     if (attempts == 2) {
@@ -393,6 +385,7 @@ function shuffle(array) {
 }
 
 function displayOptions() {
+
   scoreTrack.style.color = 'white'
   scoreTrack.textContent = score + "/10"
   attempts = 0
@@ -400,6 +393,8 @@ function displayOptions() {
   optionsDiv.style.display = 'block'
   question.style.color = "black"
   question.innerHTML = count + 1 + ". " + allData[count].question
+
+  
 
 
   if (allData[count].type == "boolean") {
@@ -438,9 +433,11 @@ startQuiz.addEventListener('click', () => {
     score = 0
     count = 0
     attempts = 0
+    optionsDiv.style.display = 'block'
     disScore.innerHTML = ''
     timerDiv.style.display = 'block'
     loadFlag = true
+    loadingPara.innerHTML = ''
     countDown()
     displayOptions()
   } else {
