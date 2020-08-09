@@ -62,7 +62,7 @@ select {
     color: #fff;
     border-bottom-right-radius: 55px;
     border-top-left-radius: 55px;
-    width: 650px;
+  
   }
 
   .submit-button{
@@ -97,7 +97,7 @@ select {
 }
 
 #disScore {
-    font-size: 30px;
+    font-size: 35px;
 }
 
 #correctAns{
@@ -109,9 +109,35 @@ select {
 }
 
 #loadingPara {
-    font-size: 25px;
+    font-size: 35px;
 }
 
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    clear: both;
+    margin-top: 100px;
+  }
+  
+  #customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #customers tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #customers tr:hover {background-color: #ddd;}
+  
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #7838df;
+    color: white;
+  }
+
+    
   .element-animation1 {
     animation: animationFrames ease .8s;
     animation-iteration-count: 1;

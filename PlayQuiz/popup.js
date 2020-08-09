@@ -12,8 +12,22 @@ var correctAns = document.getElementById('correctAns')
 var scoreTrack = document.getElementById('scoreTrack')
 var disScore = document.getElementById('disScore')
 var homeBtn = document.getElementById('home')
+var dashBtn = document.getElementById('dashboard')
+var homeDiv = document.getElementById('homeDiv')
+var dashDiv = document.getElementById('dashDiv')
+
+
+
+
+dashDiv.style.display =  'none'
+// localStorage.setItem('dashArray', JSON.stringify([]))
+if (JSON.parse(localStorage.getItem("dashArray")) == null) {
+  localStorage.setItem("dashArray", JSON.stringify([]))
+}
 
 timerDiv.style.display = 'none'
+
+
 
 var loadFlag = false
 
@@ -30,6 +44,8 @@ var allData = []
 // Splitting()
 var timerInterval = null;
 
+var allCategories = []
+
 let count = 0
 var selectData = []
 
@@ -38,6 +54,7 @@ var score = 0
 
 let category = ''
 let difficulty = ''
+let catName = ''
 
 var diffFlag = false
 
@@ -45,13 +62,11 @@ let quizFlag = false
 
 // Home button
 
-homeBtn.addEventListener('click',()=>{
-  displayLandPage()
-})
+
 
 // Home display function
 
-function displayLandPage(){
+function displayLandPage() {
   selectTags.style.display = "block"
   optionsDiv.style.display = "none"
   timerDiv.style.display = "none"
@@ -62,18 +77,26 @@ function displayLandPage(){
 
 catSelect.addEventListener('change', async () => {
   console.log(event.target.value)
+  catName = event.target.name
   // let selectData = []
   //  for(let i=0;i<allData.length;i++) {
   //       if(allData.category == event.target.value  ) {
   //         selectData.push(allData[i])
   //       }
   //  }
+  console.log(catName)
   diffFlag = true
 
   category = event.target.value
   selectData = await getData(event.target.value)
   // console.log(selectData.results)
   allData = selectData.results
+
+  for (let i = 0; i < allCategories.length; i++) {
+    if (allCategories[i].id == category) {
+      catName = allCategories[i].category
+    }
+  }
 
   count = 0
 
@@ -88,7 +111,7 @@ catSelect.addEventListener('change', async () => {
 diffSelect.addEventListener('change', async () => {
   console.log(event.target.value)
 
-  
+
 
   difficulty = event.target.value
 
@@ -112,15 +135,19 @@ async function checkData() {
     var res = await getData(i)
     console.log(res.results[0].category)
     let cat = res.results[0].category
-  
+
+
 
     for (let j = 0; j < res.results.length; j++) {
       allData.push(res.results[j])
     }
 
+    allCategories.push({ category: cat, id: i })
+
     var catOpt = document.createElement('option')
     catOpt.value = i
     catOpt.textContent = cat
+    catOpt.setAttribute('name', cat)
     catSelect.append(catOpt)
 
     i++
@@ -148,31 +175,128 @@ function getData(x) {
 
 checkData()
 
+
+homeBtn.addEventListener('click', () => {
+  homeDiv.style.display = 'block'
+  dashDiv.style.display = 'none'
+  displayLandPage()
+  if (count >= 1 && count < 9) {
+    loadingPara.innerHTML = "Invalid Attempt" + "&#129320;"
+
+    let dashObj = {
+      category: catName,
+      difficulty: difficulty,
+      score: score,
+      status: 'Invalid Attempt',
+      feedback: 'Try once again'
+    }
+
+
+
+    var localData = JSON.parse(localStorage.getItem('dashArray'))
+    console.log(localData)
+    localData.push(dashObj)
+    localStorage.setItem('dashArray', JSON.stringify(localData))
+
+
+  }
+})
+
+
+dashBtn.addEventListener('click', ()=> {
+    homeDiv.style.display = 'none'
+    dashDiv.style.display = 'block'
+  let data = JSON.parse(localStorage.getItem('dashArray'))
+
+  let tbody = document.getElementById('tbody')
+  tbody.innerHTML = ''
+
+    // 
+    for(let i=0;i<data.length;i++) {
+      var tr = document.createElement('tr')
+       tr.innerHTML = '<td>' + Number(i+1) + '<td>' + data[i].category + '<td>' + data[i].difficulty + '<td>' + data[i].score + '<td>' + data[i].status + '<td>' + data[i].feedback
+       tbody.append(tr)
+    }
+})
+
+
+// function localStorageData() {
+
+//   let dashObj = {
+//     category: catName,
+//     difficulty: difficulty,
+//     score: score,
+//     status: 'Invalid Attempt',
+//     feedback: 'Try once again'
+//   }
+
+//   var localData = JSON.parse(localStorage.getItem('dashArray'))
+//   console.log(localData)
+//   localData.push(dashObj)
+//   localStorage.setItem('dashArray', JSON.stringify(localData))
+// }
+
 // function onSubmit() {
 submitBtn.addEventListener('click', () => {
 
- 
   event.preventDefault()
-  
+
   var radioInput = document.querySelectorAll("input");
-
-
   console.log(attempts, count, "count")
-   
+
   // var txt = "";
   var uncheck = 0
   console.log(event.target.nextSibling)
 
-  if(count+1 >= 10) {
+  if (count  >= 10) {
+
+
+
+    var status = ''
+    var feedback = ''
+    if (score < 5) {
+      status = "Fail"
+      feedback = 'Reattempt the Quiz'
+      disScore.innerHTML = "Score is " + score + " &#128553;"
+    } else if (score >= 5 && score <= 7) {
+      status = "Satisfactory"
+      feedback = 'Need to Improve'
+      disScore.innerHTML = "Score is "  + score + " &#128533;"
+    } else {
+      status = "Excellent"
+      feedback = 'Try new concept'
+      disScore.innerHTML = "Score is "  + score + " &#128525;"
+    }
+
+    // if (count == 10) {
+      let dashObj = {
+        category: catName,
+        difficulty: difficulty,
+        score: score,
+        status: status,
+        feedback: feedback
+      }
+
+      var localData = JSON.parse(localStorage.getItem('dashArray'))
+      console.log(localData)
+      localData.push(dashObj)
+      localStorage.setItem('dashArray', JSON.stringify(localData))
+    // }
+
+
+
     selectTags.style.display = 'block'
     optionsDiv.style.display = 'none'
-    loadingDiv.style.display= 'block'
+    loadingDiv.style.display = 'block'
+    loadingPara.textContent = 'Succesfully completed the Quiz'
     clearInterval(timerInterval)
-    displayTime.textContent = ''
-    disScore.textContent = score
+    timerDiv.textContent = ''
+  
     category = ''
     difficulty = ''
-}
+
+
+  }
 
   if (attempts < 2) {
     for (var i = 0; i < radioInput.length; i++) {
@@ -191,7 +315,7 @@ submitBtn.addEventListener('click', () => {
           // alert('incorrect')
           attempts++
           // radioInput[i].nextSibling.setAttribute("class", "wrong")
-          radioInput[i].nextSibling.style.color = 'tomoto'
+          radioInput[i].nextSibling.style.color = 'tomato'
           correctAns.style.color = 'cyan'
           correctAns.textContent = "You have one more attempt &#128534"	
           // console.log("you have one more attempt")
@@ -201,10 +325,10 @@ submitBtn.addEventListener('click', () => {
         // break
       }
     }
-  
-    if(attempts == 2) {
+
+    if (attempts == 2) {
       correctAns.style.color = 'white'
-      correctAns.textContent = "The correct answer is " +  allData[count].correct_answer
+      correctAns.textContent = "The correct answer is " + allData[count].correct_answer
     }
 
   } else {
@@ -212,13 +336,13 @@ submitBtn.addEventListener('click', () => {
     clearInterval(timerInterval)
     count++
     attempts = 0
-  displayOptions()
-  countDown()
+    displayOptions()
+    countDown()
   }
 
 
 
-    
+
   // console.log(txt)
   // console.log(selectData)
   // radioInput[uncheck].checked = false
@@ -277,7 +401,7 @@ function displayOptions() {
   optionsDiv.style.display = 'block'
   question.style.color = "black"
   question.innerHTML = count + 1 + ". " + allData[count].question
- 
+
 
   if (allData[count].type == "boolean") {
     option1.style.color = '#fff'
@@ -301,7 +425,7 @@ function displayOptions() {
 
       labels[i].textContent = allData[count].incorrect_answers[i]
       labels[i].parentElement.checked = false
-      labels[i].style.color='#fff'
+      labels[i].style.color = '#fff'
     }
 
   }
@@ -315,7 +439,7 @@ startQuiz.addEventListener('click', () => {
     score = 0
     count = 0
     attempts = 0
-    disScore.textContent = ''
+    disScore.innerHTML = ''
     timerDiv.style.display = 'block'
     loadFlag = true
     countDown()
@@ -336,32 +460,32 @@ if (!loadFlag) {
 
 // Timer functionality
 
-function timerCountDown(timeVal){
+function timerCountDown(timeVal) {
   const FULL_DASH_ARRAY = 283;
-const WARNING_THRESHOLD = 10;
-const ALERT_THRESHOLD = 5;
+  const WARNING_THRESHOLD = 10;
+  const ALERT_THRESHOLD = 5;
 
-const COLOR_CODES = {
-  info: {
-    color: "green"
-  },
-  warning: {
-    color: "orange",
-    threshold: WARNING_THRESHOLD
-  },
-  alert: {
-    color: "red",
-    threshold: ALERT_THRESHOLD
-  }
-};
+  const COLOR_CODES = {
+    info: {
+      color: "green"
+    },
+    warning: {
+      color: "orange",
+      threshold: WARNING_THRESHOLD
+    },
+    alert: {
+      color: "red",
+      threshold: ALERT_THRESHOLD
+    }
+  };
 
-const TIME_LIMIT = timeVal;
-let timePassed = 0;
-let timeLeft = TIME_LIMIT;
-// var timerInterval = null;
-let remainingPathColor = COLOR_CODES.info.color;
+  const TIME_LIMIT = timeVal;
+  let timePassed = 0;
+  let timeLeft = TIME_LIMIT;
+  // var timerInterval = null;
+  let remainingPathColor = COLOR_CODES.info.color;
 
-document.getElementById("app").innerHTML = `
+  document.getElementById("app").innerHTML = `
 <div class="base-timer">
   <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
     <g class="base-timer__circle">
@@ -385,93 +509,127 @@ document.getElementById("app").innerHTML = `
 </div>
 `;
 
-startTimer();
+  startTimer();
 
-function onTimesUp() {
-  clearInterval(timerInterval);
-}
+  function onTimesUp() {
+    clearInterval(timerInterval);
+  }
 
-function startTimer() {
-  timerInterval = setInterval(() => {
-    timePassed = timePassed += 1;
-    timeLeft = TIME_LIMIT - timePassed;
-    document.getElementById("base-timer-label").innerHTML = formatTime(
-      timeLeft
-    );
-    setCircleDasharray();
-    setRemainingPathColor(timeLeft);
+  function startTimer() {
+    timerInterval = setInterval(() => {
+      timePassed = timePassed += 1;
+      timeLeft = TIME_LIMIT - timePassed;
+      document.getElementById("base-timer-label").innerHTML = formatTime(
+        timeLeft
+      );
+      setCircleDasharray();
+      setRemainingPathColor(timeLeft);
 
-    if (timeLeft === 0) {
-      onTimesUp();
-      clearInterval()
-      count++
-      if(count >= 10){
-        displayLandPage()
-      }
-      else{
+      if (timeLeft === 0) {
+        onTimesUp();
+        clearInterval()
+        count++
+        if (count >= 10) {
+          // disScore.innerHTML = "Score is " + "<br/>" + score + "&#128525;"
+          loadingPara.textContent = 'Succesfully completed the Quiz'
+          displayLandPage()
 
-        displayOptions()
-        if (difficulty == 'easy') {
-          time = 30
-          timerCountDown(time)
-  
-        } else if (difficulty == 'medium') {
-          time = 45
-          timerCountDown(time)
-  
-        } else if (difficulty == 'hard') {
-          time = 60
-          timerCountDown(time)
+
+          var status = ''
+          var feedback = ''
+          if (score < 5) {
+            status = "Fail"
+            feedback = 'Reattempt the Quiz'
+            disScore.innerHTML = "Score is " + score + " &#128553;"
+          } else if (score >= 5 && score <= 7) {
+            status = "Satisfactory"
+            feedback = 'Need to Improve'
+            disScore.innerHTML = "Score is " + score + " &#128533;"
+          } else {
+            status = "Excellent"
+            feedback = 'Try new concept'
+            disScore.innerHTML = "Score is " + score + " &#128525;"
+          }
+
+          if (count == 10) {
+            let dashObj = {
+              category: catName,
+              difficulty: difficulty,
+              score: score,
+              status: status,
+              feedback: feedback
+            }
+
+            var localData = JSON.parse(localStorage.getItem('dashArray'))
+            console.log(localData)
+            localData.push(dashObj)
+            localStorage.setItem('dashArray', JSON.stringify(localData))
+          }
         }
+        else {
+
+          displayOptions()
+          if (difficulty == 'easy') {
+            time = 30
+            timerCountDown(time)
+
+          } else if (difficulty == 'medium') {
+            time = 45
+            timerCountDown(time)
+
+          } else if (difficulty == 'hard') {
+            time = 60
+            timerCountDown(time)
+          }
+        }
+
       }
+    }, 1000);
+  }
 
+  function formatTime(time) {
+    const minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+
+    if (seconds < 10) {
+      seconds = `0${seconds}`;
     }
-  }, 1000);
-}
 
-function formatTime(time) {
-  const minutes = Math.floor(time / 60);
-  let seconds = time % 60;
-
-  if (seconds < 10) {
-    seconds = `0${seconds}`;
+    return `${minutes}:${seconds}`;
   }
 
-  return `${minutes}:${seconds}`;
-}
-
-function setRemainingPathColor(timeLeft) {
-  const { alert, warning, info } = COLOR_CODES;
-  if (timeLeft <= alert.threshold) {
-    document
-      .getElementById("base-timer-path-remaining")
-      .classList.remove(warning.color);
-    document
-      .getElementById("base-timer-path-remaining")
-      .classList.add(alert.color);
-  } else if (timeLeft <= warning.threshold) {
-    document
-      .getElementById("base-timer-path-remaining")
-      .classList.remove(info.color);
-    document
-      .getElementById("base-timer-path-remaining")
-      .classList.add(warning.color);
+  function setRemainingPathColor(timeLeft) {
+    const { alert, warning, info } = COLOR_CODES;
+    if (timeLeft <= alert.threshold) {
+      document
+        .getElementById("base-timer-path-remaining")
+        .classList.remove(warning.color);
+      document
+        .getElementById("base-timer-path-remaining")
+        .classList.add(alert.color);
+    } else if (timeLeft <= warning.threshold) {
+      document
+        .getElementById("base-timer-path-remaining")
+        .classList.remove(info.color);
+      document
+        .getElementById("base-timer-path-remaining")
+        .classList.add(warning.color);
+    }
   }
-}
 
-function calculateTimeFraction() {
-  const rawTimeFraction = timeLeft / TIME_LIMIT;
-  return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
-}
+  function calculateTimeFraction() {
+    const rawTimeFraction = timeLeft / TIME_LIMIT;
+    return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+  }
 
-function setCircleDasharray() {
-  const circleDasharray = `${(
-    calculateTimeFraction() * FULL_DASH_ARRAY
-  ).toFixed(0)} 283`;
-  document
-    .getElementById("base-timer-path-remaining")
-    .setAttribute("stroke-dasharray", circleDasharray);
-}
+  function setCircleDasharray() {
+    const circleDasharray = `${(
+      calculateTimeFraction() * FULL_DASH_ARRAY
+    ).toFixed(0)} 283`;
+    document
+      .getElementById("base-timer-path-remaining")
+      .setAttribute("stroke-dasharray", circleDasharray);
+  }
 }
 
 
