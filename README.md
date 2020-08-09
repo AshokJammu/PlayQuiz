@@ -4,7 +4,7 @@ A Google Chrome extension that allows user to play Quiz and get results based on
 
 This project was created  with  React[Create React App](https://github.com/facebook/create-react-app).
 
-<a href =  "https://paymentmanagesystem.netlify.app/">
+<a href =  "">
   <button style = "background:red,padding:5px">Demo Link</button>
 </a>
  
