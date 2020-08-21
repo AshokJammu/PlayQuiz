@@ -13,7 +13,6 @@ Play Quiz is a simple google extension which allow to user play quiz and get res
 <br>
 <br>
 
-
 To get started and know better here is the list of the features build inside this application
 <p><img src="https://github.com/AshokJammu/PlayQuiz/blob/master/PlayQuiz/resources/home.png" /></p>
 
